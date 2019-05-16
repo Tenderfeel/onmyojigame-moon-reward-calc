@@ -98,6 +98,13 @@ const REWARDS2 = {
   1500: { type: "item", id: 5, num: 30 },
   2000: { type: "item", id: 12, num: 1 }
 };
+//1億以降
+const REWARDS3 = {
+  1000: { type: "item", id: 5, num: 30 },
+  2000: { type: "item", id: 12, num: 1 },
+  3000: { type: "money", num: 100000 },
+  4000: { type: "jewel", num: 50 }
+};
 export default {
   name: "Reward",
   props: {
@@ -163,17 +170,55 @@ export default {
     },
     overReward() {
       if (this.overDamage) {
-        const monay = Math.floor(this.overDamage / 500);
-        this.totalMoney += monay * REWARDS2[500].num;
+        let current = 0;
+        // オーバー5000万まで（1億以内）
+        const over1 = this.overDamage <= 5000 ? this.overDamage : 5000;
+        // 1億以上
+        const over2 = this.overDamage >= 5000 ? this.overDamage - 5000 : 0;
 
-        const jewel = Math.floor(this.overDamage / 1000);
-        this.totalJewel += jewel * REWARDS2[1000].num;
+        // 1億までは500刻み
+        while (current <= over1) {
+          current += 500;
+          if (current <= over1) {
+            this.totalMoney += REWARDS2[500].num;
+          }
+          current += 500;
+          if (current <= over1) {
+            this.totalJewel += REWARDS2[1000].num;
+          }
+          current += 500;
+          if (current <= over1) {
+            this.totalItems[ITEMS[REWARDS2[1500].id]] += REWARDS2[1500].num;
+          }
+          current += 500;
+          if (current <= over1) {
+            this.totalItems[ITEMS[REWARDS2[2000].id]] += REWARDS2[2000].num;
+          }
+        }
 
-        const item1 = Math.floor(this.overDamage / 1500);
-        this.totalItems[ITEMS[REWARDS2[1500].id]] += item1 * REWARDS2[1500].num;
+        if (!over2) return;
 
-        const item2 = Math.floor(this.overDamage / 2000);
-        this.totalItems[ITEMS[REWARDS2[1500].id]] += item1 * REWARDS2[2000].num;
+        current = 0;
+
+        //1億以上
+        while (current <= over2) {
+          current += 1000;
+          if (current <= over2) {
+            this.totalItems[ITEMS[REWARDS3[1000].id]] += REWARDS3[1000].num;
+          }
+          current += 1000;
+          if (current <= over2) {
+            this.totalItems[ITEMS[REWARDS3[2000].id]] += REWARDS3[2000].num;
+          }
+          current += 1000;
+          if (current <= over2) {
+            this.totalMoney += REWARDS3[3000].num;
+          }
+          current += 1000;
+          if (current <= over2) {
+            this.totalJewel += REWARDS3[4000].num;
+          }
+        }
       }
     }
   },
