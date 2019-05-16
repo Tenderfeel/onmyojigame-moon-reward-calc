@@ -40,7 +40,7 @@ const ITEMS = {
   16: "御行ダルマ"
 };
 const REWARDS = {
-  1: { type: "money", num: 2000 },
+  1: { type: "money", num: 20000 },
   10: { type: "jewel", num: 10 },
   20: { type: "item", id: 1, num: 1 },
   40: { type: "jewel", num: 20 },
